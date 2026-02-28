@@ -11,6 +11,9 @@ from linkml.utils.generator import Generator, shared_arguments
 from linkml_runtime.linkml_model.meta import ClassDefinition, SchemaDefinition
 from linkml_runtime.utils.schemaview import SchemaView
 
+from linkml.generators.shaclgen import add_simple_data_type
+from rdflib import URIRef
+
 DEFAULT_SOURCE_JSON = "data.json~jsonpath"
 DEFAULT_ITERATOR = "$.items[*]"
 
@@ -214,6 +217,18 @@ class YarrrmlGenerator(Generator):
                     }
                 )
                 continue
+
+            # PY-125: ugly hack to work around the issue
+            if s.range:
+                datatype = None
+                def update_datatype(_, uri: URIRef):
+                    nonlocal datatype
+                    datatype = uri
+                add_simple_data_type(update_datatype, s.range)
+                if datatype:
+                    dt = str(datatype).replace("http://www.w3.org/2001/XMLSchema#", "xsd:")
+                    po.append({"p": pred, "o": {"value": f"$({var})", "datatype": dt}})
+                    continue
 
             po.append({"p": pred, "o": f"$({var})"})
 
