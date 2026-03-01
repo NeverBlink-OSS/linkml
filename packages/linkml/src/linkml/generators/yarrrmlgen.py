@@ -96,9 +96,7 @@ class YarrrmlGenerator(Generator):
             else:
                 mapping_dict["sources"] = [[self.source]]
 
-            subject_template = self._subject_template_for_class(cls)
-            if subject_template:
-                mapping_dict["s"] = subject_template
+            mapping_dict["s"] = self._subject_template_for_class(cls)
             mapping_dict["po"] = self._po_list_for_class(cls)
 
             mappings[str(cls.name)] = mapping_dict
@@ -138,7 +136,7 @@ class YarrrmlGenerator(Generator):
     def _iterator_for_class(self, c: ClassDefinition) -> str:
         return self.iterator_template.replace("{Class}", c.name)
 
-    def _subject_template_for_class(self, c: ClassDefinition) -> str | None:
+    def _subject_template_for_class(self, c: ClassDefinition) -> str:
         sv = self.schemaview
         default_prefix = sv.schema.default_prefix or "ex"
         id_slot = sv.get_identifier_slot(c.name)
@@ -147,7 +145,7 @@ class YarrrmlGenerator(Generator):
         key_slot = sv.get_key_slot(c.name)
         if key_slot:
             return f"{default_prefix}:$({key_slot.name})"
-        return None
+        return f"{default_prefix}:{c.name}/$(subject_id)"
 
     def _po_list_for_class(self, c: ClassDefinition) -> list[dict[str, Any]]:
         sv = self.schemaview
