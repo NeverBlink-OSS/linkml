@@ -13,22 +13,22 @@ relations between them.
    gen-rdfs personinfo.yaml
    linkml generate rdfs --format nt personinfo.yaml
 
-Maintained in LinkML-Scala
---------------------------
+Maintained in ohi LinkML
+------------------------
 
 .. important::
 
    The generator itself is **not implemented in this repository**. This is a wrapper
-   around the RDFS generator in `LinkML-Scala
-   <https://github.com/NeverBlink-OSS/linkml-scala>`_.
+   around the RDFS generator in `ohi LinkML
+   <https://linkml.ohi.dev/>`_.
 
    Please report any bug reports or feature requests at
-   https://github.com/NeverBlink-OSS/linkml-scala
+   https://github.com/NeverBlink-OSS/ohi/issues
 
    You can also try the generator without installing anything in the
-   `in-browser playground <https://linkml.neverblink.eu/playground/>`_.
+   `in-browser playground <https://linkml.ohi.dev/playground/>`_.
 
-When reporting bugs, please include the versions of both linkml and LinkML-Scala.
+When reporting bugs, please include the versions of both linkml and ohi LinkML.
 You can find them by running ``gen-rdfs --version``.
 
 What gets generated
@@ -61,10 +61,13 @@ What gets generated
    * - ``see_also``
      - ``rdfs:seeAlso``
 
+The full mapping is described in the `ohi LinkML documentation
+<https://linkml.ohi.dev/docs/generators/rdfs/>`_.
+
 Limitations
 -----------
 
-The schema has to be a path to a local file. LinkML-Scala reads it and resolves its imports
+The schema has to be a path to a local file. ohi LinkML reads it and resolves its imports
 from disk itself, so a URL or an already-parsed ``SchemaDefinition`` is refused.
 
 Docs
@@ -85,7 +88,8 @@ Code
 .. autoclass:: RdfsGenerator
     :members: serialize, as_turtle, as_ntriples, as_graph
 
-.. currentmodule:: linkml.generators.common.scala
+.. currentmodule:: linkml.generators.common.ohi
 
-.. autoclass:: ScalaBackedGenerator
-    :members: scala_schema, generatorversion, close
+.. autoclass:: OhiBackedGenerator
+    :members: ohi_schema, generatorversion, close
+    :no-index:

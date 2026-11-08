@@ -1,6 +1,6 @@
 """Minimal tests for the RDFS generator.
 
-The generator code is in LinkML-Scala, so the tests here check mostly that all the
+The generator code is in ohi LinkML, so the tests here check mostly that all the
 options work correctly.
 """
 
@@ -12,10 +12,10 @@ from click.testing import CliRunner
 from rdflib import RDF, RDFS, Graph, URIRef
 from rdflib.compare import isomorphic
 
-from linkml.generators.common.scala import build_info
+from linkml.generators.common.ohi import build_info
 from linkml.generators.rdfsgen import RdfsGenerator, cli
 
-linkml_scala = pytest.importorskip("linkml_scala", reason="LinkML-Scala has no build for this platform")
+ohi_linkml = pytest.importorskip("ohi_linkml", reason="ohi LinkML has no build for this platform")
 
 pytestmark = pytest.mark.rdfsgen
 
@@ -81,7 +81,7 @@ def test_unknown_format_is_rejected():
 
 
 def test_exclude_imports_drops_imported_classes(graph):
-    """``--exclude-imports`` becomes LinkML-Scala's ``only_classes_from_root_schema``."""
+    """``--exclude-imports`` becomes ohi LinkML's ``only_classes_from_root_schema``."""
     excluded = RdfsGenerator(str(SCHEMA), exclude_imports=True).as_graph()
     assert (IMPORTED_CLASS, RDF.type, RDFS.Class) in graph
     assert (IMPORTED_CLASS, RDF.type, RDFS.Class) not in excluded
@@ -118,8 +118,8 @@ def test_every_cli_option_is_accepted_by_the_generator():
 
 
 def test_cli_version_reports_both_versions():
-    """A bug report needs the linkml version and the LinkML-Scala version, so ``-V`` shows both."""
+    """A bug report needs the linkml version and the ohi LinkML version, so ``-V`` shows both."""
     result = CliRunner().invoke(cli, ["-V"])
     assert result.exit_code == 0
     assert "linkml " in result.output
-    assert f"LinkML-Scala {build_info()['linkml_scala_version']}" in result.output
+    assert f"ohi LinkML {build_info()['linkml_scala_version']}" in result.output

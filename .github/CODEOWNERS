@@ -65,7 +65,7 @@
 #
 # EXPERIMENT: delegated self-contained area, see
 # docs/maintainers/codeowners.md#experiment-delegating-self-contained-areas
-# Wrapper around LinkML-Scala: https://github.com/NeverBlink-OSS/linkml-scala
+# Wrapper around ohi LinkML: https://github.com/NeverBlink-OSS/ohi
 
 /docs/generators/rdfs.rst                                          @Ostrzyciel @niegrzybkowski
 /packages/linkml/src/linkml/generators/rdfsgen.py                  @Ostrzyciel @niegrzybkowski

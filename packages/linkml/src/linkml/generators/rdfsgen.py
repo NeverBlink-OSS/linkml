@@ -1,9 +1,9 @@
 """Generate an `RDFS <https://www.w3.org/TR/rdf-schema/>`_ vocabulary from a LinkML schema.
 
 The translation itself is not implemented here. This module is a thin wrapper around the RDFS
-generator in `LinkML-Scala <https://github.com/NeverBlink-OSS/linkml-scala>`_, using
-its Python bindings. See :mod:`linkml.generators.common.scala` for the shared machinery. Report
-bugs in the output in the LinkML-Scala repository.
+generator in `ohi LinkML <https://linkml.ohi.dev/>`_, using
+its Python bindings. See :mod:`linkml.generators.common.ohi` for the shared machinery. Report
+bugs in the output in the ohi LinkML repository.
 
 Classes and enums become ``rdfs:Class``, slots become ``rdf:Property`` with an ``rdfs:range``,
 and ``is_a`` becomes ``rdfs:subClassOf`` on classes and ``rdfs:subPropertyOf`` on slots. See
@@ -19,12 +19,12 @@ from typing import ClassVar
 import click
 from rdflib import Graph
 
-from linkml.generators.common.scala import ScalaBackedGenerator, print_versions
+from linkml.generators.common.ohi import OhiBackedGenerator, print_versions
 from linkml.utils.generator import shared_arguments
 
 
 @dataclass
-class RdfsGenerator(ScalaBackedGenerator):
+class RdfsGenerator(OhiBackedGenerator):
     """Generates an RDFS vocabulary describing the schema's classes, slots and enums.
 
     >>> from linkml.generators.rdfsgen import RdfsGenerator
@@ -66,16 +66,16 @@ class RdfsGenerator(ScalaBackedGenerator):
     exclude_imports: bool = False
     """Leave imported classes and enums out, spelled as in ``gen-shacl``.
 
-    Becomes LinkML-Scala's ``only_classes_from_root_schema``.
+    Becomes ohi LinkML's ``only_classes_from_root_schema``.
     """
 
     def _generate(self, fmt: str) -> str:
-        """Ask LinkML-Scala for the vocabulary in one of the serializations it writes itself.
+        """Ask ohi LinkML for the vocabulary in one of the serializations it writes itself.
 
         :param fmt: ``ttl`` or ``nt``.
-        :return: the serialized vocabulary, byte for byte as LinkML-Scala produced it.
+        :return: the serialized vocabulary, byte for byte as ohi LinkML produced it.
         """
-        return self.scala_schema.rdfs(only_classes_from_root_schema=self.exclude_imports, format=fmt)
+        return self.ohi_schema.rdfs(only_classes_from_root_schema=self.exclude_imports, format=fmt)
 
     def as_turtle(self) -> str:
         """Generate the RDFS vocabulary as Turtle, prefixed and pretty-printed upstream.
@@ -128,7 +128,7 @@ class RdfsGenerator(ScalaBackedGenerator):
     is_eager=True,
     expose_value=False,
     callback=print_versions,
-    help="Show the linkml and LinkML-Scala versions and exit.",
+    help="Show the linkml and ohi LinkML versions and exit.",
 )
 @click.command(name="rdfs")
 def cli(yamlfile, **args):
@@ -141,8 +141,8 @@ def cli(yamlfile, **args):
     RDFS cannot express cardinality, disjoint classes or class expressions. Use gen-owl for
     those, or gen-shacl to validate data.
 
-    The generator is implemented in LinkML-Scala, which is maintained separately. Please submit
-    bug reports and feature requests to https://github.com/NeverBlink-OSS/linkml-scala
+    The generator is implemented in ohi LinkML, which is maintained separately. Please submit
+    bug reports and feature requests to https://github.com/NeverBlink-OSS/ohi/issues
     """
     with RdfsGenerator(yamlfile, **args) as generator:
         vocabulary = generator.serialize()

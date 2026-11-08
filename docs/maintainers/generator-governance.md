@@ -521,9 +521,9 @@ Generates an RDF representation of the schema itself.
 
 Generates an RDFS vocabulary from the schema.
 
-This generator is a wrapper around [LinkML-Scala](https://github.com/NeverBlink-OSS/linkml-scala).
+This generator is a wrapper around [ohi LinkML](https://linkml.ohi.dev/).
 
-**Issues and PRs**: [LinkML-Scala](https://github.com/NeverBlink-OSS/linkml-scala)
+**Issues and PRs**: [NeverBlink-OSS/ohi](https://github.com/NeverBlink-OSS/ohi)
 
 | Contributor | GitHub | Lines |
 |-------------| --- | --- |
